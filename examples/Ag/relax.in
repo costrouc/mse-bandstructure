@@ -1,0 +1,43 @@
+ &control
+    calculation = 'vc-relax'
+    nstep=50
+    etot_conv_thr = 1.d-5
+    forc_conv_thr = 1.d-4
+    pseudo_dir = 'pseudo/'
+    outdir='output/'
+    restart_mode='from_scratch'
+    prefix='ag'
+    tprnfor = .true.
+    tstress = .true.
+ /
+ &system
+    ibrav = 2
+    A = 4.3
+    nat =  1
+    ntyp = 1
+    ecutwfc = 30.0
+!   ecutrho = 300.0
+!   nr1 = 40, nr2 = 40, nr3 = 40
+    occupations='smearing',
+    smearing='marzari-vanderbilt'
+    degauss=0.05
+ /
+ &electrons
+    diagonalization='david'
+    conv_thr = 1.d-7
+    mixing_beta = 0.7D0
+ /
+ &ions
+    ion_dynamics = 'bfgs'
+ /
+ &cell
+    cell_dynamics = 'bfgs'
+    press_conv_thr = 0.1D0
+    press = 0.0
+ /
+ATOMIC_SPECIES
+ Ag  107.8682  Ag.pbe-d-rrkjus.UPF
+ATOMIC_POSITIONS
+ Ag 0.00 0.00 0.00
+K_POINTS {automatic}
+ 8 8 8 0 0 0

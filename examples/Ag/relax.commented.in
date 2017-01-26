@@ -1,0 +1,62 @@
+ &control
+! Calculations `vc-relax` and `vc-md` require &cell to be present...
+    calculation = 'vc-relax'
+! Max number of ion/cell relaxation steps
+    nstep=50
+! Total energy convergence threshold (default)
+    etot_conv_thr = 1.d-4
+! Force convergence threshold (default)
+    forc_conv_thr = 1.d-3
+! Directory for psuedo potentials defined in ATOMIC_SPECIES
+    pseudo_dir = 'pseudo/'
+! Output files writen to output directory
+    outdir='output/'
+! Start this calculation 'from_scratch' (default)
+    restart_mode='from_scratch'
+! Prefix the saved input/output files
+    prefix='ag'
+! Calculate forces at each relaxation step (needed for 'relax' calcualtion)
+    tprnfor = .true.
+! Calculation stress at each relaxation step (needed for variable cell size)
+    tstress = .true.
+ /
+ &system
+    ibrav = 2,
+! Acutal value is 4.161 Angstrons (off for demonstration purposes)
+    a = 4.3,
+! Number of atoms (used in &ATOMIC_POSITIONS)
+    nat =  1,
+! Number of atom types (used in &ATOMIC_SPECIES)
+    ntyp = 1,
+! Units in rydberg (should be around 15-20 for ultrasoft pseudo potential, 30-40 for normcons and paw)
+    ecutwfc = 30.0,
+! FFT Grid Size (default should work most of the time) do not use unless an fft error is specified
+!   nr1 = 20, nr2 = 20, nr3 = 20,
+! If material is a metal (smearing is needed) (tetrahedral for all non-scf calculations). 
+    occupations='smearing',
+    smearing='marzari-vanderbilt',
+! How much smearing to perform (required if smearing enabled)
+    degauss=0.05
+ /
+ &electrons
+! Electronic optimization procedure change if not converging
+    diagonalization='david',
+! Change to smaller number if you need finer electronic convergence
+    conv_thr = 1.d-6
+! Mixing term for electronic density of previous step with current step
+    mixing_beta = 0.7D0
+ /
+ &ions
+! Ionic/cell optimization procedure
+    ion_dynamics = 'bfgs',
+ /
+ &cell
+! Target optimization pressure (default)
+    press = 0.0
+ /
+ATOMIC_SPECIES
+ Ag  107.8682 Ag.pz-d-rrkjus.UPF
+ATOMIC_POSITIONS
+ Ag 0.00 0.00 0.00
+K_POINTS {automatic}
+ 6 6 6 0 0 0
